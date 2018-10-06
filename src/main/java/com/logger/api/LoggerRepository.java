@@ -1,4 +1,4 @@
-package com.logger;
+package com.logger.api;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

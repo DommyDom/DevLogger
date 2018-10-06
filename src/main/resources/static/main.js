@@ -65,7 +65,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'ui';
+        this.title = 'DevLogger';
     }
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -163,7 +163,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\t\n\t\n\t<div class=\"row\">\n\t\t\t\t<table>\n\t\t\t\t\t<tr><td>\n\t\t\t\t\t\t<form>\n\t\t\t\t\t\t\t<label for=\"title\">title</label><input name=\"title\" [(ngModel)]=\"title\" type =\"text\"><br>\n\t\t\t\t\t\t\t<label for=\"body\">log</label><textarea [(ngModel)]=\"body\" name=\"body\"></textarea><br>\n\t\t\t\t\t\t\t<button (click) =\"onsubmit()\" class=\"btn\">submit</button>\n\t\t\t\t\t\t\t<button (click)=\"clear()\"  class=\"btn\">clear</button>\n\t\t\t\t\t\t\t<p *ngIf=\"isEditingLog\">editMode, press clear to exit</p>\n\t\t\t\t\t\t</form>\n\t\t\t\t\t</td></tr>\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t<tr *ngFor=\"let log of logs\"><td>\n\t\t\t\t<p *ngIf=\"loading\">loading...</p>\n\t\t\t\t<p *ngIf=\"!loading && logs.length == 0\">there are no logs</p>\n\t\t\t<div class=\"card\" >\n\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t<h5 class=\"card-title\">{{log.author}}/{{log.title}}</h5>\n\t\t\t\t\t<p class=\"card-text\"> {{log.log}}</p>\n\t\t\t\t\t<button (click) = \"onedit(log)\" class=\"btn\">edit</button><button (click)=\"deleteLog(log.id)\" class=\"btn\">delete</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t</td></tr>\n\t\t\t</table>\n\t</div>\n\n</div>\n"
+module.exports = "<div class=\"container\">\n\n\t<div class=\"row\">\n\t\t\t<div class=\"col-md-12\"  align=\"center\">\n\t\t\t\t\t<table style=\"max-width: 18rem\">\n\t\t\t\t\t\t<tr><td>\n\t\t\t\t\t\t\t<button style=\"width:100%\" class=\"btn\" (click) =\"toggleShowForm()\">{{showForm ? \"hide\" : \"show\"}} form</button>\n\t\t\t\t\t\t\t<form *ngIf=\"showForm\">\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label for=\"title\">title</label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" name=\"title\" [(ngModel)]=\"title\" type =\"text\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label for=\"body\">log</label>\n\t\t\t\t\t\t\t\t\t<textarea class=\"form-control\" [(ngModel)]=\"body\" name=\"body\"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div align=\"right\">\n\t\t\t\t\t\t\t\t\t<button (click) =\"onsubmit()\" class=\"btn btn-success\">submit</button>\n\t\t\t\t\t\t\t\t\t<button (click)=\"clear()\"  class=\"btn btn-warning\">clear</button>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div *ngIf=\"isEditingLog\">\n\t\t\t\t\t\t\t\t\t<small >editMode, press clear to exit</small>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</td></tr>\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t<tr *ngFor=\"let log of logs\"><td>\n\t\t\t\t<div style=\"max-width: 18rem\"  class=\"card text-white bg-secondary mb-3\" >\n\t\t\t\t\t<div class=\"card-header\">\n\t\t\t\t\t\t<h5 class=\"card-title\"><strong>{{log.author}}</strong> {{log.title}}</h5>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t<p class=\"card-text\"> {{log.log}}</p>\n\t\t\t\t\t\t<div align=\"right\">\n\t\t\t\t\t\t\t<i (click) = \"onedit(log)\" class=\"fa fa-pencil fa-fw\" aria-hidden=\"true\"></i> <i (click)=\"deleteLog(log.id)\" class=\"fa fa-trash-o fa-fw\" aria-hidden=\"true\"></i>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"card-footer\">\n\t\t\t\t\t\t<small *ngIf=\"log.date\">Created at {{log.date | date:'short'}}</small><br *ngIf=\"log.editDate\">\n\t\t\t\t\t\t<small *ngIf=\"log.editDate\">Last edited {{log.editDate | date:'short'}}</small>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t\t</td></tr>\n\t\t\t\t\t<tr  *ngIf=\"loading || logs.length ==0\"><td>\n\t\t\t\t\t\t<p *ngIf=\"loading\">loading...</p>\n\t\t\t\t\t\t<p *ngIf=\"!loading && logs.length == 0\">there are no logs</p>\n\t\t\t\t\t</td></tr>\n\t\t\t\t</table>\n\t\t\t</div>\n\t</div>\n\n</div>\n"
 
 /***/ }),
 
@@ -179,6 +179,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_log_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/log.service */ "./src/app/services/log.service.ts");
+/* harmony import */ var sockjs_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sockjs-client */ "./node_modules/sockjs-client/lib/entry.js");
+/* harmony import */ var sockjs_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sockjs_client__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var stompjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! stompjs */ "./node_modules/stompjs/index.js");
+/* harmony import */ var stompjs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(stompjs__WEBPACK_IMPORTED_MODULE_3__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -190,13 +194,27 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(logService) {
         this.logService = logService;
         this.isEditingLog = false;
+        this.showForm = false;
         this.loading = true;
         this.logs = [];
+        this.client = stompjs__WEBPACK_IMPORTED_MODULE_3__["over"](new sockjs_client__WEBPACK_IMPORTED_MODULE_2__("/devlogger-socket"));
+        var that = this;
+        this.client.connect({}, function (frame) {
+            that.client.subscribe("/topic/log", function (log) {
+                //that.logs.push(JSON.parse(log.body).content);
+                that.pushLog(JSON.parse(log.body));
+            });
+        });
     }
+    HomeComponent.prototype.pushLog = function (log) {
+        this.logs.push(log);
+    };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.logService.getLogs().subscribe(function (logs) {
@@ -206,9 +224,8 @@ var HomeComponent = /** @class */ (function () {
         });
     };
     HomeComponent.prototype.addLog = function (title, log) {
-        var _this = this;
         this.logService.addLog({ title: title, log: log }).subscribe(function (log) {
-            _this.logs.push(log);
+            //this.logs.push(log);
         });
     };
     HomeComponent.prototype.editLog = function (log) {
@@ -224,6 +241,9 @@ var HomeComponent = /** @class */ (function () {
     };
     HomeComponent.prototype.deleteLog = function (id) {
         var _this = this;
+        if (this.isEditingLog && id === this.id) {
+            this.isEditingLog = false;
+        }
         this.logService.deleteLog(id).subscribe(function () {
             for (var i = 0; i < _this.logs.length; i++) {
                 if (_this.logs[i].id == id) {
@@ -235,10 +255,14 @@ var HomeComponent = /** @class */ (function () {
     };
     HomeComponent.prototype.onedit = function (log) {
         this.isEditingLog = true;
+        if (this.showForm === false) {
+            this.toggleShowForm();
+        }
         this.id = log.id;
         this.title = log.title;
         this.body = log.log;
         this.author = log.author;
+        this.date = log.date;
     };
     HomeComponent.prototype.onsubmit = function () {
         if (this.isEditingLog) {
@@ -246,7 +270,8 @@ var HomeComponent = /** @class */ (function () {
                 id: this.id,
                 title: this.title,
                 log: this.body,
-                author: this.author
+                author: this.author,
+                date: this.date
             };
             this.editLog(updLog);
         }
@@ -259,6 +284,9 @@ var HomeComponent = /** @class */ (function () {
         this.isEditingLog = false;
         this.title = "";
         this.body = "";
+    };
+    HomeComponent.prototype.toggleShowForm = function () {
+        this.showForm = !this.showForm;
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

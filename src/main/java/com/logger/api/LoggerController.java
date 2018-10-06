@@ -1,27 +1,41 @@
-package com.logger;
+package com.logger.api;
 
 import java.security.Principal;
+
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.Ordered;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
+@ComponentScan("org.springframework.security.samples.mvc")
 @RestController
-public class LoggerController {
+public class LoggerController implements WebMvcConfigurer {
 	
 	@Autowired
-	LoggerService loggerService;
+	LoggerService loggerService ;
 	
+	
+	@Autowired
+    private SimpMessagingTemplate template;
 	
 	@RequestMapping(value = "/api/logs", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Log> getLogs() {
+		
 		return loggerService.getLogs();
+		
 	}
 	
 	@RequestMapping(value = "/api/logs/{id}", method = RequestMethod.GET)
@@ -33,10 +47,14 @@ public class LoggerController {
 	@RequestMapping(value ="/api/logs", method = RequestMethod.POST)
 	@ResponseBody
 	public Log addLog(@RequestBody Log log, Principal principal) {
-		Log newLog = new Log(log.getTitle(),principal.getName(),log.getLog());
-		System.out.println();
+		System.out.println("pls print :)");
+		
+		Log newLog = new Log(log.getTitle(),principal.getName(),log.getLog(),new Date());
+		
 		loggerService.addLog(newLog);
-		return newLog;
+		template.convertAndSend("/topic/log",newLog);
+		
+		return null;
 	}
 	
 	@RequestMapping(value ="/api/logs/{id}",method = RequestMethod.DELETE)
@@ -46,11 +64,20 @@ public class LoggerController {
 	}
 	
 	@RequestMapping(value ="/api/logs/{id}",method = RequestMethod.PUT)
+	@ResponseBody
 	public Log editLog(@PathVariable("id") int id, @RequestBody Log log) {
+		log.setEditDate(new Date());
+		System.out.println(log.getDate());
 		loggerService.editLog(id, log);
 		return log;
 	}
 	
 	
+	
+	 @Override
+	    public void addViewControllers(ViewControllerRegistry registry) {
+	        registry.addViewController("/login").setViewName("login");
+	        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	    }
 	
 }

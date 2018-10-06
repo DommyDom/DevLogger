@@ -1,4 +1,4 @@
-package com.logger;
+package com.logger.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -14,10 +14,6 @@ public class ApiConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		
 		http.antMatcher("/api/**").authorizeRequests().anyRequest().hasRole("USER").and().httpBasic();
-		
-		//http.httpBasic().authenticationEntryPoint(entrypoint);
-		
-		//http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 	}
 }

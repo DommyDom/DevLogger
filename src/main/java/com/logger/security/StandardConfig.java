@@ -1,4 +1,4 @@
-package com.logger;
+package com.logger.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,12 +15,14 @@ public class StandardConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		
 		http.authorizeRequests()
-		.antMatchers("/**").hasRole("USER")
+		.antMatchers("/").hasRole("USER")
 		.and()
 		.formLogin()
+		.loginPage("/login")
+		.permitAll()
 		.and()
-		.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
-		
+		.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll();
+		http.authorizeRequests().antMatchers("/static/**").hasRole("USER");
 		//http.httpBasic().authenticationEntryPoint(entrypoint);
 		
 		//http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
